@@ -77,11 +77,14 @@ class SnLMainActivity : AppCompatActivity() {
         }
     }
 
-    fun updateBoxes() {
+    fun updateBoxes(isDelayed: Boolean = true) {
         // launch a new coroutine
         myScope.launch {
             // delay this coroutine for 800 miliseconds
-            delay(800)
+            // if isDelayed is true
+            if (isDelayed) {
+                delay(800)
+            }
 
             // do operation...
             for (i in 0 until startValue) {
@@ -118,8 +121,8 @@ class SnLMainActivity : AppCompatActivity() {
         // reset position
         progress = 0;
 
-        // reset boxes
-        updateBoxes()
+        // reset boxes and disable delay
+        updateBoxes(false)
 
         // reset dice
         updateDice(6);
