@@ -149,6 +149,9 @@ class SnLMainActivity : AppCompatActivity() {
         // reset dice
         updateDice(6);
 
+        // enable roll button
+        rollBtn!!.isEnabled = true
+
         // stop audio
         MP!!.seekTo(0)
     }
@@ -234,6 +237,10 @@ class SnLMainActivity : AppCompatActivity() {
         // if the progress is equal to the max value
         // play the end audio
         if (progress == maxValue) {
+            // disable roll button
+            rollBtn!!.isEnabled = false
+
+            // play the end audio
             endAudio()
         } else {
             // else play the roll audio
