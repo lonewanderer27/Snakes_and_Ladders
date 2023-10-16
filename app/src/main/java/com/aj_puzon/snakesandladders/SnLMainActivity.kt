@@ -6,7 +6,6 @@ import android.content.Context
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -20,14 +19,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.lang.Thread.sleep
 
 class SnLMainActivity : AppCompatActivity() {
     private val fullFinishAudio = false
     private val leaveTrail = true
-    private val startValue = 60
+    private val maxValue = 60
     private val numCols = 5
-    private var snl = IntArray(startValue)
+    private var snl = IntArray(maxValue)
     private var diceView: ImageView? = null
     private var rollBtn: Button? = null
     private var resetBtn: Button? = null
@@ -50,7 +48,7 @@ class SnLMainActivity : AppCompatActivity() {
 
         // generate an array of numbers from 60 to 1
         // in a snake and ladders pattern
-        snl = generateSnLPattern(startValue, numCols)
+        snl = generateSnLPattern(maxValue, numCols)
 
         // assign the grid view it's text view adapter
         val gridView = findViewById<GridView>(R.id.table)
@@ -87,7 +85,7 @@ class SnLMainActivity : AppCompatActivity() {
             }
 
             // do operation...
-            for (i in 0 until startValue) {
+            for (i in 0 until maxValue) {
                 // find the box
                 val box = findViewById<TextView>(snl[i])
 
@@ -209,15 +207,17 @@ class SnLMainActivity : AppCompatActivity() {
 
         // if the progress is higher than the max value
         // get the excess by subtracting the max value to the progress value
-        if (progress > startValue) {
-            val excess = progress - startValue
-            progress -= excess
+        if (progress > maxValue) {
+            Log.i("Excess detected!", "")
+            Log.i("Progress before subtracting excess: ", progress.toString())
+            val excess = progress - maxValue
+            progress = maxValue - excess
         }
         Log.i("Progress", progress.toString())
 
         // if the progress is equal to the max value
         // play the end audio
-        if (progress == startValue) {
+        if (progress == maxValue) {
             endAudio()
         } else {
             // else play the roll audio
@@ -259,7 +259,7 @@ class SnLMainActivity : AppCompatActivity() {
 
     inner class TextViewAdapter(private val context: Context): BaseAdapter() {
         override fun getCount(): Int {
-            return startValue
+            return maxValue
         }
 
         override fun getItem(position: Int): Any? {
@@ -279,7 +279,7 @@ class SnLMainActivity : AppCompatActivity() {
             // otherwise set the text to the reversed position
             if (actualPosition == 1) {
                 textView.text = "START"
-            } else if (actualPosition == startValue) {
+            } else if (actualPosition == maxValue) {
                 textView.text = "END"
             } else {
                 textView.text = actualPosition.toString()
