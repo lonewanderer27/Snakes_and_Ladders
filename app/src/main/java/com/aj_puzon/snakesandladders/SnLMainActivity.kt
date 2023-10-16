@@ -43,6 +43,9 @@ class SnLMainActivity : AppCompatActivity() {
 
         // cancel the coroutine
         myScope.cancel()
+
+        // reset media player
+        MP!!.reset()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
