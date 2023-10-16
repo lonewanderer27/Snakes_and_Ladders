@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 
 class SnLMainActivity : AppCompatActivity() {
     private val fullFinishAudio = false
-    private val leaveTrail = true
+    private val leaveTrail = false
     private val maxValue = 60
     private val numCols = 5
     private var snl = IntArray(maxValue)
@@ -105,10 +105,16 @@ class SnLMainActivity : AppCompatActivity() {
                 } else {
                     // change the background resource of the previous box to unselected
                     // if the box's id is less than to the progress
-                    if (box.id < progress) {
+                    if (box.id != progress) {
                         box.setBackgroundResource(R.drawable.unselected)
+
+                        // set the text color of the textview box to black
+                        box.setTextColor(resources.getColor(R.color.black))
                     } else if (box.id == progress) {
                         box.setBackgroundResource(R.drawable.selected)
+
+                        // set the text color of the textview box to white
+                        box.setTextColor(resources.getColor(R.color.white))
                     }
                 }
             }
