@@ -13,7 +13,9 @@ import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.GridView
 import android.widget.ImageView
+import android.widget.Switch
 import android.widget.TextView
+import android.widget.Toast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -22,15 +24,16 @@ import kotlinx.coroutines.launch
 
 class SnLMainActivity : AppCompatActivity() {
     private val fullFinishAudio = false
-    private val leaveTrail = false
     private val maxValue = 60
     private val numCols = 5
+    private var leaveTrail = false
     private var snl = IntArray(maxValue)
     private var diceView: ImageView? = null
     private var rollBtn: Button? = null
     private var resetBtn: Button? = null
     private var progress: Int = 0;
-    private var MP: MediaPlayer? = null;
+    private var MP: MediaPlayer? = null
+    private var toggleLeaveTrail: Switch? = null
 
     // coroutine for the delay
     private val myScope = CoroutineScope(Dispatchers.Main);
@@ -63,6 +66,9 @@ class SnLMainActivity : AppCompatActivity() {
 
         // assign the reset button
         resetBtn = findViewById(R.id.resetBtn)
+
+        // assign the switch
+        toggleLeaveTrail = findViewById(R.id.toggleLeaveTrail)
         
         // set the on click listener for the roll dice btn
         rollBtn!!.setOnClickListener {
@@ -72,6 +78,15 @@ class SnLMainActivity : AppCompatActivity() {
         // set the on click listener for the reset dice btn
         resetBtn!!.setOnClickListener {
             reset()
+        }
+
+        // set the on change listener for the toggle leave trail switch
+        toggleLeaveTrail!!.setOnCheckedChangeListener { _, isChecked ->
+            // update variable
+            leaveTrail = isChecked
+
+            // update boxes and disable delay for instant feedback
+            updateBoxes(false)
         }
     }
 
