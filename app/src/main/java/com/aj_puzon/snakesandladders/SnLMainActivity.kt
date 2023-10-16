@@ -167,17 +167,9 @@ class SnLMainActivity : AppCompatActivity() {
             360f
         )
 
-        // Create ObjectAnimator for alpha (fade animation)
-        val fadeAnimator = ObjectAnimator.ofFloat(
-            diceView,
-            View.ALPHA, // Use View.ALPHA to animate alpha (fade)
-            0f, 1f // Fade from 0 (invisible) to 1 (fully visible)
-        )
-
         // Set the animation duration
         translationAnimator.duration = 1000
         rotationAnimator.duration = 1000
-        fadeAnimator.duration = 500
 
         // Create an AnimatorSet to play both animations together
         val animatorSet = AnimatorSet()
